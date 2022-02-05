@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option csharp_namespace = "CustomerAleksandr.TestgRPCApplication";
+
+package UserManagemnt;
+
+enum UserRole{
+	guest = 0;
+	admin = 1;
+}
+
+message User{
+	int32 Id = 1;
+	string Name = 2;
+	string Surname = 3;
+	UserRole Role = 4;
+}
+
+enum ResponseType{
+		ResponseOk = 0;
+		ResponseError = 1;
+	}
+
+message Response{
+	ResponseType TypeOfResponse = 1;
+	string ResponseMessage = 2;
+}
+
+message GetUsersParameter{
+}
+
+message Users{
+	repeated User UsersList = 1;
+}
+
+message UserId{
+	int32 Id = 1;
+}
+
+service UserManagement{
+	rpc AddUser (User) returns (Response) {}
+	rpc GetUsers (GetUsersParameter) returns (Users) {}
+	rpc GetUserById (UserId) returns (User) {}
+}
