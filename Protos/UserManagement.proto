@@ -7,11 +7,11 @@ package UserManagemnt;
 message User {
 	int32 Id = 1;
 	string Name = 2;
-	string Surname = 3;
+	string Surname = 3; 
 }
 
 message Response {
-	int32 Id = 3;
+	int32 Id = 1;
 }
 
 message GetUsersParameter {

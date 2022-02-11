@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Repository.Interfaces;
+using Repository.SQLite;
 
 namespace Repository
 {
@@ -6,7 +8,9 @@ namespace Repository
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<MemoryRepository>().As<IRepository>().SingleInstance();
+            builder.RegisterType<SqliteUserRepository>().As<IUserRepository>().SingleInstance();
+
+            builder.RegisterType<SQLiteProductRepository>().As<IProductRepository>().SingleInstance();
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿using Repository.Entities;
 using System.Collections.Generic;
 
-namespace Repository
+namespace Repository.Interfaces
 {
-    public interface IRepository
+    public interface IUserRepository
     {
         int AddUser(User user);
 
-        List<User> GetUsers();
+        List<User> GetAll();
 
         User GetUserById(int id);
     }

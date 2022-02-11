@@ -1,5 +1,5 @@
 using Grpc.Core;
-using Logic;
+using Logic.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -44,7 +44,7 @@ namespace CustomerAleksandr.TestgRPCApplication
         {
             try
             {
-                List<Logic.Entities.User> users = _userService.GetUsers();
+                List<Logic.Entities.User> users = _userService.GetAll();
 
                 var returnUsers = new Users();
                 foreach (var user in users)
