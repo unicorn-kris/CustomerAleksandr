@@ -6,10 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <Protobuf Include="..\..\Protos\UserManagement.proto" GrpcServices="Client" />
+      <Protobuf Include="..\..\Protos\User.proto" GrpcServices="Client" />
+	  <Protobuf Include="..\..\Protos\Product.proto" GrpcServices="Client" />
+	  <Protobuf Include="..\..\Protos\UserProductModels.proto" GrpcServices="Client" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.3.0" />
     <PackageReference Include="Google.Protobuf" Version="3.19.4" />
     <PackageReference Include="Grpc.Net.Client" Version="2.42.0" />
     <PackageReference Include="Grpc.Tools" Version="2.43.0">

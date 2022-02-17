@@ -13,5 +13,7 @@ namespace Repository.Interfaces
 
         List<Product> GetAll();
 
+        Product GetProductById(int productId);
+
     }
 }

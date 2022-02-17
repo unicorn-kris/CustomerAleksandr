@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option csharp_namespace = "CustomerAleksandr.TestgRPCApplication.Services";
+
+import "UserProductModels.proto";
+import "google/protobuf/empty.proto";
+
+package ProductManagement;
+
+message ProductResponse {
+	int32 Id = 1;
+}
+
+message Products {
+	repeated UserProductManagement.Product ProductsList = 1;
+}
+
+message ProductId {
+	int32 Id = 1;
+}
+
+message ProductsUsers{
+	repeated UserProductManagement.User UserList = 1;
+}
+
+message BuyProductRequest{
+	int32 UserId = 1;
+	int32 ProductId = 2;
+}
+
+service ProductManagement {
+	rpc AddProduct (UserProductManagement.Product) returns (ProductResponse) {}
+	rpc GetProducts (google.protobuf.Empty) returns (Products) {}
+	rpc GetProductById (ProductId) returns (UserProductManagement.Product) {}
+	rpc GetProductUsers (ProductId) returns (ProductsUsers) {}
+	rpc BuyProduct (BuyProductRequest) returns (google.protobuf.Empty) {}
+	rpc DeleteProduct (ProductId) returns (google.protobuf.Empty) {}
+}

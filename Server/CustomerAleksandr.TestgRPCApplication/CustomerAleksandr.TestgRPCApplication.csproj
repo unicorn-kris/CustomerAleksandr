@@ -5,12 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <Protobuf Include="..\..\Protos\UserManagement.proto" GrpcServices="Server" />
+      <Protobuf Include="..\..\Protos\User.proto" GrpcServices="Server" />
+	  <Protobuf Include="..\..\Protos\Product.proto" GrpcServices="Server" />
+	  <Protobuf Include="..\..\Protos\UserProductModels.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.19.4" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.27.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.43.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

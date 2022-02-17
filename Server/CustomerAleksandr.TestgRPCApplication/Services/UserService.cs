@@ -1,3 +1,4 @@
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Logic.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -5,33 +6,26 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CustomerAleksandr.TestgRPCApplication
+namespace CustomerAleksandr.TestgRPCApplication.Services
 {
-    public class UserManagementService : UserManagement.UserManagementBase
+    public class UserService : UserManagement.UserManagementBase
     {
         private readonly IUserService _userService;
-        private readonly ILogger<UserManagementService> _logger;
+        private readonly ILogger<UserService> _logger;
 
-        public UserManagementService(ILogger<UserManagementService> logger, IUserService userService)
+        public UserService(ILogger<UserService> logger, IUserService userService)
         {
             _logger = logger;
             _userService = userService;
         }
 
-        public override Task<Response> AddUser(User newUser, ServerCallContext context)
+        public override Task<UserResponse> AddUser(User newUser, ServerCallContext context)
         {
             try
             {
+                var newId = _userService.AddUser(new Logic.Entities.User(){ Name = newUser.Name, Surname = newUser.Surname });
 
-                var addUser = new Logic.Entities.User()
-                {
-                    Name = newUser.Name,
-                    Surname = newUser.Surname
-                };
-
-                var newId = _userService.AddUser(addUser);
-
-                return Task.FromResult(new Response { Id = newId });
+                return Task.FromResult(new UserResponse { Id = newId });
             }
             catch (Exception ex)
             {
@@ -40,7 +34,7 @@ namespace CustomerAleksandr.TestgRPCApplication
             }
         }
 
-        public override Task<Users> GetUsers(GetUsersParameter emptyUserParameter, ServerCallContext context)
+        public override Task<Users> GetUsers(Empty a, ServerCallContext context)
         {
             try
             {
@@ -49,8 +43,7 @@ namespace CustomerAleksandr.TestgRPCApplication
                 var returnUsers = new Users();
                 foreach (var user in users)
                 {
-                    var newUser = new User() { Id = user.Id, Name = user.Name, Surname = user.Surname };
-                    returnUsers.UsersList.Add(newUser);
+                    returnUsers.UsersList.Add(new User() { Id = user.Id, Name = user.Name, Surname = user.Surname });
                 }
                 return Task.FromResult(returnUsers);
             }
@@ -72,6 +65,27 @@ namespace CustomerAleksandr.TestgRPCApplication
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetUserById failed");
+                throw new RpcException(new Status(StatusCode.Internal, ex.Message));
+            }
+        }
+
+        public override Task<UsersProduct> GetUserProducts(UserId userId, ServerCallContext context)
+        {
+            try
+            {
+                var user = _userService.GetUserById(userId.Id);
+
+                var products = new UsersProduct();
+
+                foreach (var product in user.Products)
+                {
+                    products.ProductList.Add(new Product() { Id = product.Id, Count = product.Count, Price = product.Price, Title = product.Title });
+                }
+                return Task.FromResult(products);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetUserProducts failed");
                 throw new RpcException(new Status(StatusCode.Internal, ex.Message));
             }
         }

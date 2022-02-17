@@ -12,5 +12,7 @@ namespace Logic.Interfaces
         void BuyProduct(int productId, int userId);
 
         List<Product> GetAll();
+
+        Product GetProductById(int productId);
     }
 }

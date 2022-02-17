@@ -101,5 +101,24 @@ namespace Repository.SQLite
                 throw new ProductRepositoryException();
             }
         }
+
+        public Product GetProductById(int productId)
+        {
+            try
+            {
+                var newProduct = new Product();
+
+                using (ShopContext db = new ShopContext())
+                {
+                    newProduct = db.Products.FirstOrDefault(p => p.Id == productId);
+                }
+
+                return newProduct;
+            }
+            catch
+            {
+                throw new ProductRepositoryException();
+            }
+        }
     }
 }

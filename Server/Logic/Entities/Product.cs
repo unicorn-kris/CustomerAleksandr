@@ -12,6 +12,6 @@ namespace Logic.Entities
 
         public List<User> Users { get; set; }
 
-        public int Count { get; internal set; }
+        public int Count { get; set; }
     }
 }

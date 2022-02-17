@@ -75,5 +75,19 @@ namespace Logic.Services
                 throw new ProductLogicException();
             }
         }
+
+        public Product GetProductById(int productId)
+        {
+            try
+            {
+                var product = _productRepository.GetProductById(productId);
+
+                return new Product { Id = product.Id, Count = product.Count, Price = product.Price, Title = product.Title };
+            }
+            catch
+            {
+                throw new ProductLogicException();
+            }
+        }
     }
 }
