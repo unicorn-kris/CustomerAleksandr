@@ -32,18 +32,18 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
                 {
                     Console.WriteLine($"{reply.Id}, {reply.Name}, {reply.Surname}");
 
-                    _log.Information($"GetUserByIdCommand userId = {reply.Id} successfully");
+                    _log.Information($"Get User By Id userId = {reply.Id} successfully");
                 }
                 else
                 {
                     Console.WriteLine("Enter a valid value");
 
-                    _log.Error($"GetUserByIdCommand unsuccessfully");
+                    _log.Error($"Get User By Id unsuccessfully");
                 }
             }
             catch (RpcException ex)
             {
-                _log.Error($"GetUserByIdCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Get User By Id Failed");
             }
         }
     }

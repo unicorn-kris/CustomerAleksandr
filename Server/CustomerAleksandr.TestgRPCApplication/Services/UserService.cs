@@ -34,7 +34,7 @@ namespace CustomerAleksandr.TestgRPCApplication.Services
             }
         }
 
-        public override Task<Users> GetUsers(Empty a, ServerCallContext context)
+        public override Task<Users> GetUsers(Empty request, ServerCallContext context)
         {
             try
             {

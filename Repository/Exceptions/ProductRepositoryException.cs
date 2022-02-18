@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Repository.Exceptions
 {
-    internal class ProductRepositoryException : Exception
+    public class ProductRepositoryException : Exception
     {
         public ProductRepositoryException()
         {

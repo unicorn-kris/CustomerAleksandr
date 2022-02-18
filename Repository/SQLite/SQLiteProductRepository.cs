@@ -2,6 +2,7 @@
 using Repository.Entities;
 using Repository.Exceptions;
 using Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,9 +25,9 @@ namespace Repository.SQLite
                 }
                 return productId;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new ProductRepositoryException("");
+                throw new ProductRepositoryException("AddProduct failed" + ex.Message);
             }
         }
 
@@ -48,12 +49,11 @@ namespace Repository.SQLite
                         user.Products.Add(product);
                         db.SaveChanges();
                     }
-
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw new ProductRepositoryException();
+                throw new ProductRepositoryException("BuyProduct failed" + ex.Message);
             }
         }
 
@@ -72,12 +72,11 @@ namespace Repository.SQLite
                         db.Remove(product);
                         db.SaveChanges();
                     }
-
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw new ProductRepositoryException();
+                throw new ProductRepositoryException("DeleteProduct failed" + ex.Message);
             }
         }
 
@@ -90,9 +89,9 @@ namespace Repository.SQLite
                     return db.Products.ToList();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw new ProductRepositoryException();
+                throw new ProductRepositoryException("GetAll failed" + ex.Message);
             }
         }
 
@@ -100,18 +99,14 @@ namespace Repository.SQLite
         {
             try
             {
-                var newProduct = new Product();
-
                 using (ShopContext db = new ShopContext())
                 {
-                    newProduct = db.Products.FirstOrDefault(p => p.Id == productId);
+                    return db.Products.FirstOrDefault(p => p.Id == productId);
                 }
-
-                return newProduct;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new ProductRepositoryException();
+                throw new ProductRepositoryException("GetProductById failed" + ex.Message);
             }
         }
     }

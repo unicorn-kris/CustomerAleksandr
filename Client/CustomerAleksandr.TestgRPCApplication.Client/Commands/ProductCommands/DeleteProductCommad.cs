@@ -25,13 +25,13 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
 
             try
             {
-                var reply = await _productClient.DeleteProductAsync(new ProductId { Id = productId.Result });
+                await _productClient.DeleteProductAsync(new ProductId { Id = productId.Result });
 
-                _log.Information($"DeleteProductCommand productId = {productId} successfully");
+                _log.Information($"Delete Product productId = {productId} successfully");
             }
             catch (RpcException ex)
             {
-                _log.Error($"DeleteProductCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Delete Product Failed");
             }
         }
     }

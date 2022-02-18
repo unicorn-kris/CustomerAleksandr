@@ -9,8 +9,7 @@ namespace Repository.SQLite
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder
-                .Property(u => u.Id)
-                .ValueGeneratedOnAdd();
+               .HasKey(u => u.Id);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Repository.Entities;
 using Repository.Exceptions;
 using Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,11 +24,10 @@ namespace Repository.SQLite
                 }
                 return userId;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new UserRepositoryException();
+                throw new UserRepositoryException("AddUser failed" + ex.Message);
             }
-
         }
 
         public User GetUserById(int id)
@@ -42,11 +42,10 @@ namespace Repository.SQLite
                 }
                 return newUser;
             }
-            catch
+            catch (Exception ex)
             {
-                throw new UserRepositoryException();
+                throw new UserRepositoryException("GetUserById failed" + ex.Message);
             }
-
         }
 
         public List<User> GetAll()
@@ -58,9 +57,9 @@ namespace Repository.SQLite
                    return db.Users.ToList();
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                throw new UserRepositoryException();
+                throw new UserRepositoryException("GetAll failed" + ex.Message);
             }
         }
     }

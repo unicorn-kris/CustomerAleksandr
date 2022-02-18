@@ -35,18 +35,18 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
                         Console.WriteLine($"{replyProduct.Id}, {replyProduct.Title}, Price: {replyProduct.Price}, Count: {replyProduct.Count}");
                     }
 
-                    _log.Information($"GetUsersProductsCommand userId = {userId} successfully");
+                    _log.Information($"Get Users Products userId = {userId} successfully");
                 }
                 else
                 {
                     Console.WriteLine("Enter a valid value");
 
-                    _log.Information($"GetUsersProductsCommand userId = {userId} unsuccessfully");
+                    _log.Information($"Get Users Products userId = {userId} unsuccessfully");
                 }
             }
             catch (RpcException ex)
             {
-                _log.Error($"GetUsersProductsCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Get Users Products Failed");
             }
         }
     }

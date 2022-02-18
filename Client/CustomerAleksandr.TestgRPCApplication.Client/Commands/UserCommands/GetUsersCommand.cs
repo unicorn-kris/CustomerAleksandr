@@ -34,11 +34,11 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
                     }
                 }
 
-                _log.Information($"GetUsersCommand successfully");
+                _log.Information($"Get Users successfully");
             }
             catch (RpcException ex)
             {
-                Console.WriteLine($"GetUsersCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Get Users Failed");
             }
         }
     }

@@ -1,6 +1,7 @@
 ﻿using Logic.Entities;
 using Logic.Exceptions;
 using Logic.Interfaces;
+using Repository.Exceptions;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,13 @@ namespace Logic.Services
 
                 return _userRepository.AddUser(newUser);
             }
+            catch (UserRepositoryException ex)
+            {
+                throw ex;
+            }
             catch (Exception ex)
             {
-                throw new UserLogicException();
+                throw new UserLogicException("GetUserById failed " + ex.Message);
             }
         }
 
@@ -65,9 +70,13 @@ namespace Logic.Services
 
                 return result;
             }
-            catch
+            catch (UserRepositoryException ex)
             {
-                throw new ProductLogicException();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new UserLogicException("GetUserById failed " + ex.Message);
             }
         }
 
@@ -79,9 +88,13 @@ namespace Logic.Services
 
                 return (new User { Id = id, Name = newUser.Name, Surname = newUser.Surname });
             }
-            catch
+            catch (UserRepositoryException ex)
             {
-                throw new UserLogicException();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new UserLogicException("GetUserById failed " + ex.Message);
             }
         }
     }

@@ -33,11 +33,11 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
             {
                 var reply = await _userClient.AddUserAsync(newUser);
 
-                _log.Information($"AddUserCommand userId = {reply.Id} successfully");
+                _log.Information($"Add User userId = {reply.Id} successfully");
             }
             catch (RpcException ex)
             {
-                _log.Error($"AddUserCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Add User Failed");
             }
         }
     }

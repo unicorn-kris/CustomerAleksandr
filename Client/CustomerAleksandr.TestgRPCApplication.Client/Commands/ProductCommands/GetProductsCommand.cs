@@ -26,7 +26,7 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             {
                 var reply = await _productClient.GetProductsAsync(new Empty());
 
-                if (reply != null && reply.ProductsList.Any())
+                if (reply.ProductsList.Any())
                 {
                     foreach (var replyProduct in reply.ProductsList)
                     {
@@ -34,11 +34,11 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
                     }
                 }
 
-                _log.Information($"GetProductsCommand successfully");
+                _log.Information($"Get Products successfully");
             }
             catch (RpcException ex)
             {
-                _log.Error($"GetProductsCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Get Products Failed");
             }
         }
     }

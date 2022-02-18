@@ -3,7 +3,7 @@ using CustomerAleksandr.TestgRPCApplication.Client;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using System;
 
-namespace CustomerAleksandr.TestgRPCApplication.clientUser
+namespace CustomerAleksandr.TestgRPCApplication.Client
 {
     public class Program
     {

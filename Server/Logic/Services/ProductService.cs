@@ -1,7 +1,9 @@
 ﻿using Logic.Entities;
 using Logic.Exceptions;
 using Logic.Interfaces;
+using Repository.Exceptions;
 using Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Logic.Services
@@ -26,9 +28,13 @@ namespace Logic.Services
 
                 return _productRepository.AddProduct(newproduct);
             }
-            catch
+            catch (ProductRepositoryException ex)
             {
-                throw new ProductLogicException();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new ProductLogicException("GetAll failed " + ex.Message);
             }
         }
 
@@ -70,9 +76,13 @@ namespace Logic.Services
 
                 return result;
             }
-            catch
+            catch (ProductRepositoryException ex)
             {
-                throw new ProductLogicException();
+                throw ex;
+            }
+            catch (Exception ex)
+            {
+                throw new ProductLogicException("GetAll failed " + ex.Message);
             }
         }
 
@@ -84,9 +94,9 @@ namespace Logic.Services
 
                 return new Product { Id = product.Id, Count = product.Count, Price = product.Price, Title = product.Title };
             }
-            catch
+            catch (Exception ex)
             {
-                throw new ProductLogicException();
+                throw new ProductLogicException("GetAll failed " + ex.Message);
             }
         }
     }

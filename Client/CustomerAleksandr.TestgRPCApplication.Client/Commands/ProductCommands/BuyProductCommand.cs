@@ -1,6 +1,5 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Serilog;
 using System;
@@ -30,13 +29,13 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
 
             try
             {
-                var reply = await _productClient.BuyProductAsync(new BuyProductRequest { ProductId = productId.Result, UserId = userId.Result });
+                await _productClient.BuyProductAsync(new BuyProductRequest { ProductId = productId.Result, UserId = userId.Result });
 
-                _log.Information($"BuyProductCommand productId = {productId}, userId = {userId} successfully");
+                _log.Information($"Buy Product productId = {productId}, userId = {userId} successfully");
             }
             catch (RpcException ex)
             {
-                _log.Error($"BuyProductCommand unsuccessfully StatucsCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Buy Product Failed");
             }
         }
     }

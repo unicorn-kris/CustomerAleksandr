@@ -36,11 +36,11 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             {
                 var reply = await _productClient.AddProductAsync(newProduct);
 
-                _log.Information($"AddProductCommand {reply.Id} successfully");
+                _log.Information($"Add Product productId = {reply.Id} successfully");
             }
             catch (RpcException ex)
             {
-                _log.Error($"AddProductCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error(ex, "Add Product Failed");
             }
         }
     }
