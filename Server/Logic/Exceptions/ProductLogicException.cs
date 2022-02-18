@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Logic.Exceptions
 {
-    public class ProductLogicException : Exception
+    internal class ProductLogicException : Exception
     {
         public ProductLogicException()
         {

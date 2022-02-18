@@ -18,5 +18,12 @@ namespace Repository.SQLite
         {
             optionsBuilder.UseSqlite("Filename=Shop.db");
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            new UserEntityTypeConfiguration().Configure(modelBuilder.Entity<User>());
+
+            new ProductEntityTypeConfiguration().Configure(modelBuilder.Entity<Product>());
+        }
     }
 }

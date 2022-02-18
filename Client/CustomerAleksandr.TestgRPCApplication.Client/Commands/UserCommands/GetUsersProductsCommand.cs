@@ -1,35 +1,52 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
+using Grpc.Core;
+using Serilog;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
 {
-    class GetUsersProductsCommand : ICommand
+    internal class GetUsersProductsCommand : ICommand
     {
-        private IReaderCommand _readerCommand;
+        private IReaderService _readerCommand;
         private UserManagement.UserManagementClient _userClient;
+        private ILogger _log;
 
-        public GetUsersProductsCommand(IReaderCommand readerCommand, UserManagement.UserManagementClient productClient)
+        public GetUsersProductsCommand(IReaderService readerCommand, UserManagement.UserManagementClient productClient, ILogger log)
         {
             _readerCommand = readerCommand;
             _userClient = productClient;
+            _log = log;
         }
         public async Task Execute()
         {
             var userId = _readerCommand.ReadInt();
-            var reply = await _userClient.GetUserProductsAsync(new UserId { Id = userId.Result });
 
-            if (reply != null)
+            try
             {
-                foreach (var replyProduct in reply.ProductList)
+                var reply = await _userClient.GetUserProductsAsync(new UserId { Id = userId.Result });
+
+                if (reply != null && reply.ProductList.Any())
                 {
-                    Console.WriteLine($"{replyProduct.Id}, {replyProduct.Title}, Price: {replyProduct.Price}, Count: {replyProduct.Count}");
+                    foreach (var replyProduct in reply.ProductList)
+                    {
+                        Console.WriteLine($"{replyProduct.Id}, {replyProduct.Title}, Price: {replyProduct.Price}, Count: {replyProduct.Count}");
+                    }
+
+                    _log.Information($"GetUsersProductsCommand userId = {userId} successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Enter a valid value");
+
+                    _log.Information($"GetUsersProductsCommand userId = {userId} unsuccessfully");
                 }
             }
-            else
+            catch (RpcException ex)
             {
-                Console.WriteLine("Enter a valid value");
+                _log.Error($"GetUsersProductsCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
             }
         }
     }

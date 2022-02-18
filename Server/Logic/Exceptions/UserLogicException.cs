@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Logic.Exceptions
 {
-    public class UserLogicException : Exception
+    internal class UserLogicException : Exception
     {
         public UserLogicException()
         {

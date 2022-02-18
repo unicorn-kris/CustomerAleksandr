@@ -1,20 +1,23 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Grpc.Core;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
 namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
 {
-    class AddProductCommand : ICommand
+    internal class AddProductCommand : ICommand
     {
-        private IReaderCommand _readerCommand;
+        private IReaderService _readerCommand;
         private ProductManagement.ProductManagementClient _productClient;
+        private ILogger _log;
 
-        public AddProductCommand(IReaderCommand readerCommand, ProductManagement.ProductManagementClient productClient)
+        public AddProductCommand(IReaderService readerCommand, ProductManagement.ProductManagementClient productClient, ILogger log)
         {
             _readerCommand = readerCommand;
             _productClient = productClient;
+            _log = log;
         }
         public async Task Execute()
         {
@@ -32,13 +35,13 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             try
             {
                 var reply = await _productClient.AddProductAsync(newProduct);
+
+                _log.Information($"AddProductCommand {reply.Id} successfully");
             }
             catch (RpcException ex)
             {
-                Console.WriteLine($"StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error($"AddProductCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
             }
-
-            return;
         }
     }
 }

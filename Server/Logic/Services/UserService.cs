@@ -2,11 +2,12 @@
 using Logic.Exceptions;
 using Logic.Interfaces;
 using Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace Logic.Services
 {
-    public class UserService : IUserService
+    internal class UserService : IUserService
     {
         private IUserRepository _userRepository;
 
@@ -25,7 +26,7 @@ namespace Logic.Services
 
                 return _userRepository.AddUser(newUser);
             }
-            catch
+            catch (Exception ex)
             {
                 throw new UserLogicException();
             }

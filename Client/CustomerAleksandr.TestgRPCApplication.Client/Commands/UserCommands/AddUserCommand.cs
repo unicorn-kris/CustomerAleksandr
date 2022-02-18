@@ -1,20 +1,23 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Grpc.Core;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
 namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
 {
-    class AddUserCommand : ICommand
+    internal class AddUserCommand : ICommand
     {
-        private IReaderCommand _readerCommand;
+        private IReaderService _readerCommand;
         private UserManagement.UserManagementClient _userClient;
+        private ILogger _log;
 
-        public AddUserCommand(IReaderCommand readerCommand, UserManagement.UserManagementClient productClient)
+        public AddUserCommand(IReaderService readerCommand, UserManagement.UserManagementClient productClient, ILogger log)
         {
             _readerCommand = readerCommand;
             _userClient = productClient;
+            _log = log;
         }
         public async Task Execute()
         {
@@ -29,10 +32,12 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
             try
             {
                 var reply = await _userClient.AddUserAsync(newUser);
+
+                _log.Information($"AddUserCommand userId = {reply.Id} successfully");
             }
             catch (RpcException ex)
             {
-                Console.WriteLine($"StatusCode: {ex.StatusCode} Message: {ex.Message}");
+                _log.Error($"AddUserCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
             }
         }
     }

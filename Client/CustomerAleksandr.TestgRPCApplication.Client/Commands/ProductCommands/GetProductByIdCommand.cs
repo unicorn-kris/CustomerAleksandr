@@ -1,35 +1,49 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
+using Grpc.Core;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
 namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
 {
-    class GetProductByIdCommand : ICommand
+    internal class GetProductByIdCommand : ICommand
     {
-        private IReaderCommand _readerCommand;
+        private IReaderService _readerCommand;
         private ProductManagement.ProductManagementClient _productClient;
+        private ILogger _log;
 
-        public GetProductByIdCommand(IReaderCommand readerCommand, ProductManagement.ProductManagementClient productClient)
+        public GetProductByIdCommand(IReaderService readerCommand, ProductManagement.ProductManagementClient productClient, ILogger log)
         {
             _readerCommand = readerCommand;
             _productClient = productClient;
+            _log = log;
         }
         public async Task Execute()
         {
             Console.WriteLine("Enter id");
-
             var productId = _readerCommand.ReadInt();
 
-            var reply = await _productClient.GetProductByIdAsync(new ProductId { Id = productId.Result });
+            try
+            {
+                var reply = await _productClient.GetProductByIdAsync(new ProductId { Id = productId.Result });
 
-            if (reply != null)
-            {
-                Console.WriteLine($"{reply.Id}, {reply.Title}, Price: {reply.Price}, Count: {reply.Count}");
+                if (reply != null)
+                {
+                    Console.WriteLine($"{reply.Id}, {reply.Title}, Price: {reply.Price}, Count: {reply.Count}");
+
+                    _log.Information($"AddProductCommand productId = {reply.Id} successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Enter a valid value");
+
+                    _log.Error($"GetProductByIdCommand unsuccessfully");
+                }
             }
-            else
+            catch (RpcException ex)
             {
-                Console.WriteLine("Enter a valid value");
+                _log.Error($"GetProductByIdCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
             }
         }
     }

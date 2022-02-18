@@ -2,7 +2,7 @@
 
 namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces
 {
-    public interface IReaderCommand
+    public interface IReaderService
     {
         Task<string> ReadString();
 

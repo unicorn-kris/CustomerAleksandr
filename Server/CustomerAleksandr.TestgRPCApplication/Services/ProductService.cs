@@ -43,7 +43,7 @@ namespace CustomerAleksandr.TestgRPCApplication.Services
                 var returnProducts = new Products();
                 foreach (var newProduct in Products)
                 {
-                    returnProducts.ProductsList.Add(new Product() { Title = newProduct.Title, Price = newProduct.Price, Count = newProduct.Count });
+                    returnProducts.ProductsList.Add(new Product() { Id = newProduct.Id, Title = newProduct.Title, Price = newProduct.Price, Count = newProduct.Count });
                 }
                 return Task.FromResult(returnProducts);
             }

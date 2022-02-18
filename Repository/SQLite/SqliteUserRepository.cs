@@ -13,6 +13,7 @@ namespace Repository.SQLite
             try
             {
                 int userId = 0;
+
                 using (ShopContext db = new ShopContext())
                 {
                     db.Add(user);
@@ -52,16 +53,10 @@ namespace Repository.SQLite
         {
             try
             {
-                var users = new List<User>();
-
                 using (ShopContext db = new ShopContext())
                 {
-                    foreach (var user in db.Users)
-                    {
-                        users.Add(user);
-                    }
+                   return db.Users.ToList();
                 }
-                return users;
             }
             catch
             {

@@ -1,15 +1,11 @@
 ﻿using Autofac;
 using CustomerAleksandr.TestgRPCApplication.Client;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
-using CustomerAleksandr.TestgRPCApplication.Services;
-using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
-using Grpc.Net.Client;
 using System;
 
 namespace CustomerAleksandr.TestgRPCApplication.clientUser
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -38,6 +34,6 @@ namespace CustomerAleksandr.TestgRPCApplication.clientUser
             }
             while (int.TryParse(Console.ReadLine(), out choice));
 
-        } 
+        }
     }
 }

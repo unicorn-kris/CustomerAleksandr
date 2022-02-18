@@ -2,18 +2,18 @@
 using System;
 using System.Threading.Tasks;
 
-namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ReaderCommands
+namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ReaderServices
 {
-    class ConsoleReaderCommand : IReaderCommand
+    internal class ConsoleReaderService : IReaderService
     {
         public Task<string> ReadString()
         {
             return Task.FromResult(Console.ReadLine());
         }
 
-        Task<int> IReaderCommand.ReadInt()
+        public Task<int> ReadInt()
         {
-            var result = -1;
+            int result;
             while (!int.TryParse(Console.ReadLine(), out result))
             {
                 Console.WriteLine("Enter a valid value");

@@ -1,34 +1,49 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
+using Grpc.Core;
+using Serilog;
 using System;
 using System.Threading.Tasks;
 
 namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
 {
-    class GetUserByIdCommand : ICommand
+    internal class GetUserByIdCommand : ICommand
     {
-        private IReaderCommand _readerCommand;
+        private IReaderService _readerCommand;
         private UserManagement.UserManagementClient _userClient;
+        private ILogger _log;
 
-        public GetUserByIdCommand(IReaderCommand readerCommand, UserManagement.UserManagementClient productClient)
+        public GetUserByIdCommand(IReaderService readerCommand, UserManagement.UserManagementClient productClient, ILogger log)
         {
             _readerCommand = readerCommand;
             _userClient = productClient;
+            _log = log;
         }
         public async Task Execute()
         {
             Console.WriteLine("Enter id");
-
             var userId = _readerCommand.ReadInt();
-            var reply = await _userClient.GetUserByIdAsync(new UserId { Id = userId.Result });
 
-            if (reply != null)
+            try
             {
-                Console.WriteLine($"{reply.Id}, {reply.Name}, {reply.Surname}");
+                var reply = await _userClient.GetUserByIdAsync(new UserId { Id = userId.Result });
+
+                if (reply != null)
+                {
+                    Console.WriteLine($"{reply.Id}, {reply.Name}, {reply.Surname}");
+
+                    _log.Information($"GetUserByIdCommand userId = {reply.Id} successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Enter a valid value");
+
+                    _log.Error($"GetUserByIdCommand unsuccessfully");
+                }
             }
-            else
+            catch (RpcException ex)
             {
-                Console.WriteLine("Enter a valid value");
+                _log.Error($"GetUserByIdCommand unsuccessfully StatusCode: {ex.StatusCode} Message: {ex.Message}");
             }
         }
     }

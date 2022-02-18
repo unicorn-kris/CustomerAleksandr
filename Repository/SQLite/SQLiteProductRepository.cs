@@ -15,7 +15,7 @@ namespace Repository.SQLite
             {
                 int productId = 0;
 
-                using (var db = new ShopContext())
+                using (ShopContext db = new ShopContext())
                 {
                     db.Add(product);
                     db.SaveChanges();
@@ -85,16 +85,10 @@ namespace Repository.SQLite
         {
             try
             {
-                var products = new List<Product>();
-
                 using (ShopContext db = new ShopContext())
                 {
-                    foreach (var product in db.Products)
-                    {
-                        products.Add(product);
-                    }
+                    return db.Products.ToList();
                 }
-                return products;
             }
             catch
             {
