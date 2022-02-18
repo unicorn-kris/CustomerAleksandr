@@ -13,16 +13,13 @@ namespace Repository.SQLite
         {
             try
             {
-                int userId = 0;
-
                 using (ShopContext db = new ShopContext())
                 {
                     db.Add(user);
                     db.SaveChanges();
 
-                    userId = user.Id;
+                    return user.Id;
                 }
-                return userId;
             }
             catch (Exception ex)
             {
@@ -34,13 +31,11 @@ namespace Repository.SQLite
         {
             try
             {
-                var newUser = new User();
                 using (ShopContext db = new ShopContext())
                 {
-                    newUser = db.Users
+                    return db.Users
                                 .FirstOrDefault(c => c.Id == id);
                 }
-                return newUser;
             }
             catch (Exception ex)
             {

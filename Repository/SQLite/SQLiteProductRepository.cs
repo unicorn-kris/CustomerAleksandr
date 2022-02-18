@@ -14,16 +14,13 @@ namespace Repository.SQLite
         {
             try
             {
-                int productId = 0;
-
                 using (ShopContext db = new ShopContext())
                 {
                     db.Add(product);
                     db.SaveChanges();
 
-                    productId = product.Id;
+                   return product.Id;
                 }
-                return productId;
             }
             catch (Exception ex)
             {
@@ -101,7 +98,8 @@ namespace Repository.SQLite
             {
                 using (ShopContext db = new ShopContext())
                 {
-                    return db.Products.FirstOrDefault(p => p.Id == productId);
+                    return db.Products
+                                    .FirstOrDefault(p => p.Id == productId);
                 }
             }
             catch (Exception ex)

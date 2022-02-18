@@ -59,10 +59,8 @@ namespace Logic.Services
                             Price = product.Price
                         });
                     }
-
                     result.Add(newUser);
                 }
-
                 return result;
             }
             catch (Exception ex)
