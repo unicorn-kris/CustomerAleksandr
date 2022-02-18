@@ -26,7 +26,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new UserRepositoryException("AddUser failed" + ex.Message);
+                throw new UserRepositoryException("AddUser failed ", ex);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new UserRepositoryException("GetUserById failed" + ex.Message);
+                throw new UserRepositoryException("GetUserById failed ", ex);
             }
         }
 
@@ -59,7 +59,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new UserRepositoryException("GetAll failed" + ex.Message);
+                throw new UserRepositoryException("GetAll failed ", ex);
             }
         }
     }

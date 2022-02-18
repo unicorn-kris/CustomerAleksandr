@@ -27,7 +27,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new ProductRepositoryException("AddProduct failed" + ex.Message);
+                throw new ProductRepositoryException("AddProduct failed ", ex);
             }
         }
 
@@ -53,7 +53,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new ProductRepositoryException("BuyProduct failed" + ex.Message);
+                throw new ProductRepositoryException("BuyProduct failed ", ex);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new ProductRepositoryException("DeleteProduct failed" + ex.Message);
+                throw new ProductRepositoryException("DeleteProduct failed ", ex);
             }
         }
 
@@ -91,7 +91,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new ProductRepositoryException("GetAll failed" + ex.Message);
+                throw new ProductRepositoryException("GetAll failed ", ex);
             }
         }
 
@@ -106,7 +106,7 @@ namespace Repository.SQLite
             }
             catch (Exception ex)
             {
-                throw new ProductRepositoryException("GetProductById failed" + ex.Message);
+                throw new ProductRepositoryException("GetProductById failed ", ex);
             }
         }
     }

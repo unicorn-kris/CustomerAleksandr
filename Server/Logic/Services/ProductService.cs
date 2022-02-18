@@ -1,7 +1,6 @@
 ﻿using Logic.Entities;
 using Logic.Exceptions;
 using Logic.Interfaces;
-using Repository.Exceptions;
 using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,24 +27,34 @@ namespace Logic.Services
 
                 return _productRepository.AddProduct(newproduct);
             }
-            catch (ProductRepositoryException ex)
-            {
-                throw ex;
-            }
             catch (Exception ex)
             {
-                throw new ProductLogicException("GetAll failed " + ex.Message);
+                throw new ProductLogicException("GetAll failed ", ex);
             }
         }
 
         public void BuyProduct(int productId, int userId)
         {
-            _productRepository.BuyProduct(productId, userId);
+            try
+            {
+                _productRepository.BuyProduct(productId, userId);
+            }
+            catch (Exception ex)
+            {
+                throw new ProductLogicException("BuyProduct failed ", ex);
+            }
         }
 
         public void DeleteProduct(int productId)
         {
-            _productRepository.DeleteProduct(productId);
+            try
+            {
+                _productRepository.DeleteProduct(productId);
+            }
+            catch (Exception ex)
+            {
+                throw new ProductLogicException("DeleteProduct failed ", ex);
+            }
         }
 
         public List<Product> GetAll()
@@ -70,19 +79,13 @@ namespace Logic.Services
                     {
                         newProduct.Users.Add(new User { Id = user.Id, Name = user.Name, Surname = user.Surname });
                     }
-
                     result.Add(newProduct);
                 }
-
                 return result;
-            }
-            catch (ProductRepositoryException ex)
-            {
-                throw ex;
             }
             catch (Exception ex)
             {
-                throw new ProductLogicException("GetAll failed " + ex.Message);
+                throw new ProductLogicException("GetAll failed ", ex);
             }
         }
 
@@ -96,7 +99,7 @@ namespace Logic.Services
             }
             catch (Exception ex)
             {
-                throw new ProductLogicException("GetAll failed " + ex.Message);
+                throw new ProductLogicException("GetAll failed ", ex);
             }
         }
     }
