@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Logic.Interfaces;
+using Logic.Services;
 using Repository;
 
 namespace Logic
@@ -8,6 +10,8 @@ namespace Logic
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<UserService>().As<IUserService>();
+
+            builder.RegisterType<ProductService>().As<IProductService>();
 
             builder.RegisterModule(new RepositoryModule());
         }

@@ -15,10 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerAleksandr.TestgRPCA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protos", "Protos", "{CBD713A5-CC8D-4282-8170-9D04F13B5293}"
 	ProjectSection(SolutionItems) = preProject
-		Protos\UserManagement.proto = Protos\UserManagement.proto
+		Protos\Product.proto = Protos\Product.proto
+		Protos\User.proto = Protos\User.proto
+		Protos\UserProductModels.proto = Protos\UserProductModels.proto
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{FA5D2593-074F-455C-A3B5-F35BEB04FEBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{FA5D2593-074F-455C-A3B5-F35BEB04FEBA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

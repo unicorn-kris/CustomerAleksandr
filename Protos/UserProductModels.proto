@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "CustomerAleksandr.TestgRPCApplication.Services";
+
+package UserProductManagement;
+
+message User {
+	int32 Id = 1;
+	string Name = 2;
+	string Surname = 3; 
+}
+
+message Product{
+	int32 Id = 1;
+	string Title = 2;
+	int32 Count = 3;
+	int32 Price = 4;
+}

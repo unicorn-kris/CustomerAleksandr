@@ -1,12 +1,12 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using CustomerAleksandr.TestgRPCApplication.Services;
 using Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Repository;
 using System;
 
 namespace CustomerAleksandr.TestgRPCApplication
@@ -39,7 +39,8 @@ namespace CustomerAleksandr.TestgRPCApplication
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<UserManagementService>();
+                endpoints.MapGrpcService<UserService>();
+                endpoints.MapGrpcService<ProductService>();
 
                 endpoints.MapGet("/", async context =>
                 {
