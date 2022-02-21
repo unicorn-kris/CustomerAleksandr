@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using CustomerAleksandr.TestgRPCApplication.Client;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using System;
 
@@ -33,7 +32,6 @@ namespace CustomerAleksandr.TestgRPCApplication.Client
                 container.ResolveNamed<ICommand>(choice.ToString()).Execute();
             }
             while (int.TryParse(Console.ReadLine(), out choice));
-
         }
     }
 }
