@@ -3,6 +3,7 @@ using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.ReaderServices;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands;
+using CustomerAleksandr.TestgRPCApplication.Client.Decorators;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -49,6 +50,10 @@ namespace CustomerAleksandr.TestgRPCApplication.Client
                   .WriteTo.File("Log.txt")
                   .CreateLogger();
             }).SingleInstance();
+
+            builder.RegisterDecorator<LoggingDecorator, ICommand>();
+
+            builder.RegisterDecorator<TimingDecorator, ICommand>();
         }
     }
 }
