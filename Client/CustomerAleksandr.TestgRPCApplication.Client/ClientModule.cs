@@ -7,6 +7,7 @@ using CustomerAleksandr.TestgRPCApplication.Client.Decorators;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Grpc.Core;
 using Grpc.Net.Client;
+using Microsoft.Extensions.Configuration;
 using Serilog;
 
 namespace CustomerAleksandr.TestgRPCApplication.Client
@@ -15,7 +16,11 @@ namespace CustomerAleksandr.TestgRPCApplication.Client
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.Register(c => GrpcChannel.ForAddress("https://localhost:5001")).As<ChannelBase>().SingleInstance();
+            builder.Register(c => new ConfigurationBuilder()
+                .AddJsonFile("appconfig.json")
+                .Build()).As<IConfiguration>().SingleInstance();
+
+            builder.Register(c => GrpcChannel.ForAddress(c.Resolve<IConfiguration>().GetSection("URL").Value)).As<ChannelBase>().SingleInstance();
 
             builder.RegisterType<ConsoleReaderService>().As<IReaderService>();
 
