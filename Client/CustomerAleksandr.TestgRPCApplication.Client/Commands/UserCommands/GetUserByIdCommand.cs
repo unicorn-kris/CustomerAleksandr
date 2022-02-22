@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -24,26 +24,19 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
             Console.WriteLine("Enter id");
             var userId = _readerCommand.ReadInt();
 
-            try
+            var reply = await _userClient.GetUserByIdAsync(new UserId { Id = userId.Result });
+
+            if (reply != null)
             {
-                var reply = await _userClient.GetUserByIdAsync(new UserId { Id = userId.Result });
+                Console.WriteLine($"{reply.Id}, {reply.Name}, {reply.Surname}");
 
-                if (reply != null)
-                {
-                    Console.WriteLine($"{reply.Id}, {reply.Name}, {reply.Surname}");
-
-                    _log.Information($"Get User By Id userId = {reply.Id} successfully");
-                }
-                else
-                {
-                    Console.WriteLine("Enter a valid value");
-
-                    _log.Error($"Get User By Id unsuccessfully");
-                }
+                _log.Information($"Get User By Id userId = {reply.Id} successfully");
             }
-            catch (RpcException ex)
+            else
             {
-                _log.Error(ex, "Get User By Id Failed");
+                Console.WriteLine("Enter a valid value");
+
+                _log.Error($"Get User By Id unsuccessfully");
             }
         }
     }

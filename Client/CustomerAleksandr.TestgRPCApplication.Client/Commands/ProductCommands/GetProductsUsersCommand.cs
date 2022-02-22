@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Linq;
@@ -25,29 +25,22 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             Console.WriteLine("Enter id");
             var productId = _readerCommand.ReadInt();
 
-            try
+            var reply = await _productClient.GetProductUsersAsync(new ProductId { Id = productId.Result });
+
+            if (reply != null && reply.UserList.Any())
             {
-                var reply = await _productClient.GetProductUsersAsync(new ProductId { Id = productId.Result });
-
-                if (reply != null && reply.UserList.Any())
+                foreach (var user in reply.UserList)
                 {
-                    foreach (var user in reply.UserList)
-                    {
-                        Console.WriteLine($"{user.Id}, {user.Name}, {user.Surname}");
-                    }
-
-                    _log.Information($"Get Products Users productId = {productId} successfully");
+                    Console.WriteLine($"{user.Id}, {user.Name}, {user.Surname}");
                 }
-                else
-                {
-                    _log.Error($"Get Products Users unsuccessfully");
 
-                    Console.WriteLine("Enter a valid value");
-                }
+                _log.Information($"Get Products Users productId = {productId} successfully");
             }
-            catch (RpcException ex)
+            else
             {
-                _log.Error(ex, "Get Products Users Failed");
+                _log.Error($"Get Products Users unsuccessfully");
+
+                Console.WriteLine("Enter a valid value");
             }
         }
     }

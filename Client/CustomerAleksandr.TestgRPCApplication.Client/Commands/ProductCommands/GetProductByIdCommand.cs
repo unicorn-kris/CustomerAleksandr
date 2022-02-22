@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -24,26 +24,19 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             Console.WriteLine("Enter id");
             var productId = _readerCommand.ReadInt();
 
-            try
+            var reply = await _productClient.GetProductByIdAsync(new ProductId { Id = productId.Result });
+
+            if (reply != null)
             {
-                var reply = await _productClient.GetProductByIdAsync(new ProductId { Id = productId.Result });
+                Console.WriteLine($"{reply.Id}, {reply.Title}, Price: {reply.Price}, Count: {reply.Count}");
 
-                if (reply != null)
-                {
-                    Console.WriteLine($"{reply.Id}, {reply.Title}, Price: {reply.Price}, Count: {reply.Count}");
-
-                    _log.Information($"Get Product By Id productId = {reply.Id} successfully");
-                }
-                else
-                {
-                    Console.WriteLine("Enter a valid value");
-
-                    _log.Error($"Get Product By Id unsuccessfully");
-                }
+                _log.Information($"Get Product By Id productId = {reply.Id} successfully");
             }
-            catch (RpcException ex)
+            else
             {
-                _log.Error(ex, "Get Product By Id Failed");
+                Console.WriteLine("Enter a valid value");
+
+                _log.Error($"Get Product By Id unsuccessfully");
             }
         }
     }

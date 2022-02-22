@@ -1,7 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Linq;
@@ -22,24 +21,17 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
 
         public async Task Execute()
         {
-            try
-            {
-                var reply = await _productClient.GetProductsAsync(new Empty());
+            var reply = await _productClient.GetProductsAsync(new Empty());
 
-                if (reply.ProductsList.Any())
+            if (reply.ProductsList.Any())
+            {
+                foreach (var replyProduct in reply.ProductsList)
                 {
-                    foreach (var replyProduct in reply.ProductsList)
-                    {
-                        Console.WriteLine($"{replyProduct.Id}, {replyProduct.Title}, Price: {replyProduct.Price}, Count: {replyProduct.Count}");
-                    }
+                    Console.WriteLine($"{replyProduct.Id}, {replyProduct.Title}, Price: {replyProduct.Price}, Count: {replyProduct.Count}");
                 }
+            }
 
-                _log.Information($"Get Products successfully");
-            }
-            catch (RpcException ex)
-            {
-                _log.Error(ex, "Get Products Failed");
-            }
+            _log.Information($"Get Products successfully");
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -32,16 +32,9 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             Console.WriteLine("Enter count: ");
             newProduct.Count = await _readerCommand.ReadInt();
 
-            try
-            {
-                var reply = await _productClient.AddProductAsync(newProduct);
+            var reply = await _productClient.AddProductAsync(newProduct);
 
-                _log.Information($"Add Product productId = {reply.Id} successfully");
-            }
-            catch (RpcException ex)
-            {
-                _log.Error(ex, "Add Product Failed");
-            }
+            _log.Information($"Add Product productId = {reply.Id} successfully");
         }
     }
 }
