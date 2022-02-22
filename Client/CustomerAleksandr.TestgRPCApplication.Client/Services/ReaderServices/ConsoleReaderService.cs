@@ -1,8 +1,8 @@
-﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+﻿using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using System;
 using System.Threading.Tasks;
 
-namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ReaderServices
+namespace CustomerAleksandr.TestgRPCApplication.Client.Services.ReaderServices
 {
     internal class ConsoleReaderService : IReaderService
     {

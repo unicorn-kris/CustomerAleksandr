@@ -1,7 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Google.Protobuf.WellKnownTypes;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Linq;
@@ -22,24 +21,17 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
 
         public async Task Execute()
         {
-            try
-            {
-                var reply = await _userClient.GetUsersAsync(new Empty());
+            var reply = await _userClient.GetUsersAsync(new Empty());
 
-                if (reply != null && reply.UsersList.Any())
+            if (reply != null && reply.UsersList.Any())
+            {
+                foreach (var user in reply.UsersList)
                 {
-                    foreach (var user in reply.UsersList)
-                    {
-                        Console.WriteLine($"{user.Id}, {user.Name}, {user.Surname}");
-                    }
+                    Console.WriteLine($"{user.Id}, {user.Name}, {user.Surname}");
                 }
+            }
 
-                _log.Information($"Get Users successfully");
-            }
-            catch (RpcException ex)
-            {
-                _log.Error(ex, "Get Users Failed");
-            }
+            _log.Information($"Get Users successfully");
         }
     }
 }

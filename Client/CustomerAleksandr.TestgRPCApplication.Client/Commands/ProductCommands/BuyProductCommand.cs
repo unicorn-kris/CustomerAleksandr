@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -27,16 +27,9 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             Console.WriteLine("Enter user id");
             var userId = _readerCommand.ReadInt();
 
-            try
-            {
-                await _productClient.BuyProductAsync(new BuyProductRequest { ProductId = productId.Result, UserId = userId.Result });
+            await _productClient.BuyProductAsync(new BuyProductRequest { ProductId = productId.Result, UserId = userId.Result });
 
-                _log.Information($"Buy Product productId = {productId}, userId = {userId} successfully");
-            }
-            catch (RpcException ex)
-            {
-                _log.Error(ex, "Buy Product Failed");
-            }
+            _log.Information($"Buy Product productId = {productId}, userId = {userId} successfully");
         }
     }
 }

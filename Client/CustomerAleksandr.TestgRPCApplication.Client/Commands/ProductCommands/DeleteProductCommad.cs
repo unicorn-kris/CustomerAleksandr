@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -23,16 +23,9 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands
             Console.WriteLine("Enter id");
             var productId = _readerCommand.ReadInt();
 
-            try
-            {
-                await _productClient.DeleteProductAsync(new ProductId { Id = productId.Result });
+            await _productClient.DeleteProductAsync(new ProductId { Id = productId.Result });
 
-                _log.Information($"Delete Product productId = {productId} successfully");
-            }
-            catch (RpcException ex)
-            {
-                _log.Error(ex, "Delete Product Failed");
-            }
+            _log.Information($"Delete Product productId = {productId} successfully");
         }
     }
 }

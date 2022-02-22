@@ -1,6 +1,6 @@
 ﻿using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Services;
-using Grpc.Core;
 using Serilog;
 using System;
 using System.Threading.Tasks;
@@ -29,16 +29,9 @@ namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands
             Console.WriteLine("Enter surname: ");
             newUser.Surname = await _readerCommand.ReadString();
 
-            try
-            {
-                var reply = await _userClient.AddUserAsync(newUser);
+            var reply = await _userClient.AddUserAsync(newUser);
 
-                _log.Information($"Add User userId = {reply.Id} successfully");
-            }
-            catch (RpcException ex)
-            {
-                _log.Error(ex, "Add User Failed");
-            }
+            _log.Information($"Add User userId = {reply.Id} successfully");
         }
     }
 }

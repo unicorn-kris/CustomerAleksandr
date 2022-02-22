@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces
+namespace CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces
 {
     public interface IReaderService
     {

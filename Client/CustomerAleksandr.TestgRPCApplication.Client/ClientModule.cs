@@ -1,9 +1,10 @@
 ﻿using Autofac;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.Interfaces;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.ProductCommands;
-using CustomerAleksandr.TestgRPCApplication.Client.Commands.ReaderServices;
 using CustomerAleksandr.TestgRPCApplication.Client.Commands.UserCommands;
 using CustomerAleksandr.TestgRPCApplication.Client.Decorators;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.Interfaces;
+using CustomerAleksandr.TestgRPCApplication.Client.Services.ReaderServices;
 using CustomerAleksandr.TestgRPCApplication.Services;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -54,6 +55,8 @@ namespace CustomerAleksandr.TestgRPCApplication.Client
             builder.RegisterDecorator<LoggingDecorator, ICommand>();
 
             builder.RegisterDecorator<TimingDecorator, ICommand>();
+
+            builder.RegisterDecorator<CatchRcpExceptionsDecorator, ICommand>();
         }
     }
 }
