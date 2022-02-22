@@ -21,7 +21,9 @@ namespace CustomerAleksandr.TestgRPCApplication.Client
                 .AddJsonFile("appconfig.json")
                 .Build()).As<IConfiguration>().SingleInstance();
 
-            builder.Register(c => GrpcChannel.ForAddress(c.Resolve<IConfiguration>().GetSection("URL").Value)).As<ChannelBase>().SingleInstance();
+            builder.RegisterType<CommandLineParameter>().SingleInstance();
+
+            builder.Register(c => GrpcChannel.ForAddress(c.Resolve<CommandLineParameter>().UrlValue ?? c.Resolve<IConfiguration>().GetSection("URL").Value)).As<ChannelBase>().SingleInstance();
 
             builder.RegisterType<ConsoleReaderService>().As<IReaderService>();
 
