@@ -3,12 +3,8 @@ using Repository.Entities;
 
 namespace Repository.SQLite
 {
-    internal class ShopContext : DbContext
+    internal class ShopContext : IContext
     {
-        public DbSet<User> Users { get; set; }
-
-        public DbSet<Product> Products { get; set; }
-
         public ShopContext()
         {
             Database.EnsureCreated();

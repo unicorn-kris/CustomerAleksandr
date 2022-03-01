@@ -5,22 +5,29 @@ using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("RepositoryTests")]
 
 namespace Repository.SQLite
 {
     internal class SQLiteProductRepository : IProductRepository
     {
+        private IContext _context;
+
+        public SQLiteProductRepository(IContext context)
+        {
+            _context = context;
+        }
+
         public int AddProduct(Product product)
         {
             try
             {
-                using (ShopContext db = new ShopContext())
-                {
-                    db.Add(product);
-                    db.SaveChanges();
+                _context.Add(product);
+                _context.SaveChanges();
 
-                   return product.Id;
-                }
+                return product.Id;
             }
             catch (Exception ex)
             {
@@ -32,20 +39,17 @@ namespace Repository.SQLite
         {
             try
             {
-                using (var db = new ShopContext())
+                var product = _context.Products
+                    .FirstOrDefault(p => p.Id == productId);
+
+                var user = _context.Users
+                    .FirstOrDefault(u => u.Id == userId);
+
+                if (product.Count != 0)
                 {
-                    var product = db.Products
-                        .FirstOrDefault(p => p.Id == productId);
-
-                    var user = db.Users
-                        .FirstOrDefault(u => u.Id == userId);
-
-                    if (product.Count != 0)
-                    {
-                        product.Count -= 1;
-                        user.Products.Add(product);
-                        db.SaveChanges();
-                    }
+                    product.Count -= 1;
+                    user.Products.Add(product);
+                    _context.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -58,17 +62,14 @@ namespace Repository.SQLite
         {
             try
             {
-                using (var db = new ShopContext())
-                {
-                    var product = db.Products
-                        .Include(c => c.Users)
-                        .FirstOrDefault(p => p.Id == productId);
+                var product = _context.Products
+                    .Include(c => c.Users)
+                    .FirstOrDefault(p => p.Id == productId);
 
-                    if (product != null)
-                    {
-                        db.Remove(product);
-                        db.SaveChanges();
-                    }
+                if (product != null)
+                {
+                    _context.Remove(product);
+                    _context.SaveChanges();
                 }
             }
             catch (Exception ex)
@@ -81,10 +82,7 @@ namespace Repository.SQLite
         {
             try
             {
-                using (ShopContext db = new ShopContext())
-                {
-                    return db.Products.ToList();
-                }
+                return _context.Products.ToList();
             }
             catch (Exception ex)
             {
@@ -96,11 +94,8 @@ namespace Repository.SQLite
         {
             try
             {
-                using (ShopContext db = new ShopContext())
-                {
-                    return db.Products
-                                    .FirstOrDefault(p => p.Id == productId);
-                }
+                return _context.Products
+                                .FirstOrDefault(p => p.Id == productId);
             }
             catch (Exception ex)
             {
