@@ -14,12 +14,11 @@ using System.Threading.Tasks;
 
 namespace ServiceTests
 {
-    class UserServiceTest
+    public class UserServiceTest
     {
-        Mock<IUserService> _mockUserService;
-        ILogger<UserService> _loggerUserService;
-        UserService _userService;
-        ServerCallContext _testServerCallContext;
+        private Mock<IUserService> _mockUserService;
+        private UserService _userService;
+        private ServerCallContext _testServerCallContext;
 
         [SetUp]
         public void Setup()
@@ -31,7 +30,9 @@ namespace ServiceTests
 
             _testServerCallContext = TestServerCallContext.Create("fooMethod", null, DateTime.UtcNow.AddHours(1), new Metadata(), CancellationToken.None, "127.0.0.1", null, null, (metadata) => TaskUtils.CompletedTask, () => new WriteOptions(), (writeOptions) => { });
 
-            _userService = new UserService(_loggerUserService, _mockUserService.Object);
+            var loggerUserService = LoggerFactory.Create(b => b.AddConsole()).CreateLogger<UserService>();
+
+            _userService = new UserService(loggerUserService, _mockUserService.Object);
         }
 
         #region add

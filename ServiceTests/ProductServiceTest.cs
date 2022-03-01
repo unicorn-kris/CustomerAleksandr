@@ -17,7 +17,6 @@ namespace ServiceTests
     public class ProductServiceTest
     {
         private Mock<IProductService> _mockProductService;
-        private ILogger<ProductService> _loggerProductService;
         private ProductService _productService;
         private ServerCallContext _testServerCallContext;
 
@@ -31,9 +30,11 @@ namespace ServiceTests
             _mockProductService.Setup(m => m.BuyProduct(It.IsAny<int>(), It.IsAny<int>()));
             _mockProductService.Setup(m => m.GetProductById(1)).Returns(new Logic.Entities.Product { Title = "Title", Count = 10, Price = 12, Id = 1 });
 
-            _testServerCallContext = TestServerCallContext.Create("fooMethod", null, DateTime.UtcNow.AddHours(1), new Metadata(), CancellationToken.None, "127.0.0.1", null, null, (metadata) => TaskUtils.CompletedTask, () => new WriteOptions(), (writeOptions) => { });
+            _testServerCallContext = TestServerCallContext.Create("testMethod", null, DateTime.UtcNow.AddHours(1), new Metadata(), CancellationToken.None, "127.0.0.1", null, null, (metadata) => TaskUtils.CompletedTask, () => new WriteOptions(), (writeOptions) => { });
 
-            _productService = new ProductService(_loggerProductService, _mockProductService.Object);
+            var loggerProductService = LoggerFactory.Create(b => b.AddConsole()).CreateLogger<ProductService>();
+
+            _productService = new ProductService(loggerProductService, _mockProductService.Object);
         }
 
         #region add

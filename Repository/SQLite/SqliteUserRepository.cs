@@ -4,19 +4,29 @@ using Repository.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("RepositoryTests")]
 
 namespace Repository.SQLite
 {
-    public class SqliteUserRepository : IUserRepository
+    public class SQLiteUserRepository : IUserRepository
     {
+        private IContext _context;
+
+        public SQLiteUserRepository(IContext context)
+        {
+            _context = context;
+        }
+
         public int AddUser(User user)
         {
             try
             {
-                using (ShopContext db = new ShopContext())
+                using (_context)
                 {
-                    db.Add(user);
-                    db.SaveChanges();
+                    _context.Add(user);
+                    _context.SaveChanges();
 
                     return user.Id;
                 }
@@ -31,9 +41,9 @@ namespace Repository.SQLite
         {
             try
             {
-                using (ShopContext db = new ShopContext())
+                using (_context)
                 {
-                    return db.Users
+                    return _context.Users
                                 .FirstOrDefault(c => c.Id == id);
                 }
             }
@@ -47,9 +57,9 @@ namespace Repository.SQLite
         {
             try
             {
-                using (ShopContext db = new ShopContext())
+                using (_context)
                 {
-                   return db.Users.ToList();
+                   return _context.Users.ToList();
                 }
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interfaces;
 using Repository.SQLite;
 
@@ -8,9 +9,13 @@ namespace Repository
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<SqliteUserRepository>().As<IUserRepository>().SingleInstance();
+            builder.RegisterType<SQLiteUserRepository>().As<IUserRepository>().SingleInstance();
 
             builder.RegisterType<SQLiteProductRepository>().As<IProductRepository>().SingleInstance();
+
+            builder.RegisterType<IContext>().As<DbContext>().SingleInstance();
+
+            builder.RegisterType<ShopContext>().As<IContext>().SingleInstance();
         }
     }
 }
